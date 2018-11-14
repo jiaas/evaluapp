@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Tracker } from 'meteor/tracker';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, browserHistory } from 'react-router';
@@ -20,6 +21,11 @@ const routes = (
     <Route path="*" component={NotFound}/>
   </Router>
 );
+
+Tracker.autorun( () => {
+  const isAuthenticated = !!Meteor.userId();
+  console.log('isAuthenticated', isAuthenticated);
+});
 
 Meteor.startup(() => {
   ReactDOM.render(routes, document.getElementById('app'));
