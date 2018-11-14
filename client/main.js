@@ -1,22 +1,18 @@
-import { Template } from 'meteor/templating';
-import { ReactiveVar } from 'meteor/reactive-var';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {Meteor} from 'meteor/meteor';
+import {Tracker} from 'meteor/tracker';
 
-import './main.html';
+Meteor.startup(() => {
+  Tracker.autorun(() => {
+    
+    let jsx = (
+      <div>
+      <h1>Hola Mundo!</h1>
+      </div>
+    );
 
-Template.hello.onCreated(function helloOnCreated() {
-  // counter starts at 0
-  this.counter = new ReactiveVar(0);
-});
-
-Template.hello.helpers({
-  counter() {
-    return Template.instance().counter.get();
-  },
-});
-
-Template.hello.events({
-  'click button'(event, instance) {
-    // increment the counter when button is clicked
-    instance.counter.set(instance.counter.get() + 1);
-  },
+    ReactDOM.render(jsx, document.getElementById('app'));
+    
+  });
 });
