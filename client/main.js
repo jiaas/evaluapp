@@ -13,6 +13,6 @@ Meteor.startup(() => {
     );
 
     ReactDOM.render(jsx, document.getElementById('app'));
-    
+
   });
 });
