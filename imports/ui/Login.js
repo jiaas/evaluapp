@@ -18,7 +18,7 @@ export default class Login extends React.Component {
 
     Accounts.createUser({email, password}, (e) => {
       if (e) {
-        this.setState({error: 'Hubo un problema creando el usuario, revise los datos ingresados.'})
+        this.setState({error: 'El usuario no existe o las credenciales ingresadas son incorrectas.'})
       } else {
         this.setState({error: ''})
       }
