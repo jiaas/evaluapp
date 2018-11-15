@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
-import { Accounts } from 'meteor/accounts-base';
+import {Accounts} from 'meteor/accounts-base';
 
 export default class Signup extends React.Component {
   
@@ -18,16 +18,13 @@ export default class Signup extends React.Component {
     let email = this.refs.email.value.trim();
     let password = this.refs.password.value.trim();
 
-    Accounts.createUser({email, password}, (err) => {
-      console.log('Signup callbak', err);
+    Accounts.createUser({email, password}, (e) => {
+      if (e) {
+        this.setState({error: 'No se inició sesión, por favor, revisa los datos ingresados.'})
+      } else {
+        this.setState({error: ''})
+      }
     })
-  
-
-    // this.setState(
-    //   {
-    //     error: 'Tenemos problemas amiguito'
-    //   }
-    // )
   }
 
 

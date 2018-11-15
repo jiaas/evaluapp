@@ -1,6 +1,6 @@
-import {Meteor} from 'meteor/meteor';
 import React from 'react';
-import { Link } from 'react-router';
+import {Link} from 'react-router';
+
 
 export default class Login extends React.Component {
   constructor(props){
@@ -16,8 +16,12 @@ export default class Login extends React.Component {
     let email = this.refs.email.value.trim();
     let password = this.refs.password.value.trim();
 
-    Meteor.loginWithPassword({email}, password, (error) => {
-      console.log('Login callback', error);
+    Accounts.createUser({email, password}, (e) => {
+      if (e) {
+        this.setState({error: 'Hubo un problema creando el usuario, revise los datos ingresados.'})
+      } else {
+        this.setState({error: ''})
+      }
     })
   }
 

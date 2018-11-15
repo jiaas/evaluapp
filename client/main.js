@@ -1,38 +1,38 @@
-import { Meteor } from 'meteor/meteor';
-import { Tracker } from 'meteor/tracker';
+import {Meteor} from 'meteor/meteor';
+import {Tracker} from 'meteor/tracker';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, browserHistory } from 'react-router';
-
-//Importo los componentes 
+import {browserHistory, Route, Router} from 'react-router';
+//Import the components
 import Signup from '../imports/ui/Signup';
 import Link from '../imports/ui/Link';
 import NotFound from '../imports/ui/NotFound';
 import Login from '../imports/ui/Login';
 
 
-//Dos arreglos con las páginas públicas y las privadas (control de acceso).
-const unauthenticatedPages = ['/', '/signup']
-const authenticatedPages = ['/links']
+//Two arrays with pages that are public.
+const unauthenticatedPages = ['/', '/signup'];
+const authenticatedPages = ['/links'];
 
-//Función anónima que que re-direcciona validando si el usuario está logeado o no.
-//Si está logeado se le envía al Home.
+//Anonymous function that checks if user is logged in or not.
+//If user is logged in, he is redirected to home
 const onEnterPublicPages = () => {
   if(Meteor.userId()) {
     browserHistory.replace('/links');
   }
-}
+};
 
-//Si no, se le envía a la raíz (la raíz se especifica en routes)
+//If user isn't logged in, he is redirected to the root web-component.
 const onEnterPrivatePages = () => {
   if(!Meteor.userId()) {
     browserHistory.replace('/');
   }
-}
+};
 
-// Router es un componente de react que permite declarar todas las rutas.
-//Se asigna un path, que vendría siendo la url que se ve.
-//Se especifica un componente a renderear y el onEnter sirve para ejecutar acciones al entrar a una página.
+// Router is a react component
+// The path is the url you see in the browser
+// In component you specify the React Component you want to render.
+// The onEnter attribute specify the
 const routes = (
   <Router history={browserHistory}>
     <Route path="/" component={Login} onEnter={onEnterPublicPages}/>
@@ -43,18 +43,15 @@ const routes = (
   </Router>
 );
 
-//Funcion anónima que corre en tiempo real.
+//Tracker is running an anonymous function
 Tracker.autorun( () => {
-  //Para saber si está autenticado, solo basta con saber si hay un Id en el Storage del navegador.
-  const isAuthenticated = !!Meteor.userId();
-  //Con esto recuperamos la página actual en la que se encuentra el usuario.
-  const pathname = browserHistory.getCurrentLocation().pathname;
-  //En estas constantes almacenamos un booleano que nos dice si el pathname (página acutal) corresponde
-  //a una página que requiere autenticación
+  const isAuthenticated = !!Meteor.userId(); //Meteor.userID native way to return the user.id
+  const pathname = browserHistory.getCurrentLocation().pathname; //bH.getCurrentLocation returns the current url.
+
   const isUnauthenticatedPage = unauthenticatedPages.includes(pathname);
   const isAuthenticatedPage = authenticatedPages.includes(pathname);
 
-  //Valido si es una página que requiere autenticación y si el usuario está autenticado.
+  //Access Control
   if(isUnauthenticatedPage && isAuthenticated){
     browserHistory.replace('/links');
    }else if (isAuthenticatedPage && !isAuthenticated){
