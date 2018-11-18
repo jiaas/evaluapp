@@ -20,7 +20,7 @@ export default class Signup extends React.Component {
 
     Accounts.createUser({email, password}, (e) => {
       if (e) {
-        this.setState({error: 'No se inició sesión, por favor, revisa los datos ingresados.'})
+        this.setState({error: 'USUARIO NO CREADO, revisa los datos ingresados.'})
       } else {
         this.setState({error: ''})
       }
